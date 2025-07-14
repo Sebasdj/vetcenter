@@ -1,6 +1,6 @@
 # 🐾 VetCenter - Plataforma de Adopción Animal
 
-![Banner VetCenter](https://via.placeholder.com/1200x400?text=VetCenter+Banner) *(reemplazar con imagen real)*
+![Banner VetCenter](/src/assets/logo.png) *(reemplazar con imagen real)*
 
 ## 🌟 Sobre el Proyecto
 **VetCenter** es una plataforma web para gestión de adopciones animales desarrollada con:

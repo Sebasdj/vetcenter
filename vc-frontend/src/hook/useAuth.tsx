@@ -8,8 +8,6 @@ export default function useAuth(): AuthContextType {
   if (context == null) {
     throw new Error('useAuth debe usarse dentro de un <AuthProvider>')
   }
-
-  console.log('useAuth context:', context);
   
   return context;
 }

@@ -1,12 +1,12 @@
+import { type IPet } from '../API/pet'
+
 interface Props {
-  mascotas: any[];
+  mascotas: IPet[];
   onDelete: (id: number) => void;
-  onEdit: (mascota: any) => void;
-  razas: { [key: number]: string };
-  usuarios: { [key: number]: string };
 }
 
-export default function MascotasList({ mascotas, onDelete, onEdit, razas, usuarios }: Props) {
+export default function MascotasList({ mascotas, onDelete }: Props) {
+  console.log('MascotasList renderizado con mascotas:', mascotas);
   return (
     <div className="table-container">
       <table>
@@ -26,12 +26,12 @@ export default function MascotasList({ mascotas, onDelete, onEdit, razas, usuari
               <td>{m.nombre}</td>
               <td>{m.edad} años</td>
               <td>{m.sexo || '-'}</td>
-              <td>{usuarios[m.usuario_id] || 'Desconocido'}</td>
-              <td>{razas[m.raza_id] || 'Desconocida'}</td>
+              <td>{m.usuario || 'Desconocido'}</td>
+              <td>{m.raza || 'Desconocida'}</td>
               <td className="actions">
-                <button onClick={() => onEdit(m)}>Editar</button>
+                {/* <button onClick={() => onEdit(m)}>Editar</button> */}
                 <button 
-                  onClick={() => onDelete(m.id)}
+                  onClick={() => onDelete(m.id ?? 0)}
                   style={{ backgroundColor: '#dc2626' }}
                 >
                   Eliminar

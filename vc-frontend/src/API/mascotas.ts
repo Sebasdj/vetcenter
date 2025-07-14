@@ -1,33 +1,39 @@
 import axios from 'axios';
+import { type Mascota } from './pet';
 
 const API_URL = 'http://localhost:3000/api';
 
-export const getMascotas = async () => {
+export const getPets = async () => {
   const response = await axios.get(`${API_URL}/mascotas`);
   return response.data;
 };
 
-export const getRazas = async () => {
+export const login = async (email: string, password: string) => {
+  const response = await axios.post(`${API_URL}/login`, { email, password });
+  return response.data;
+};
+
+export const getBreeds = async () => {
   const response = await axios.get(`${API_URL}/razas`);
   return response.data;
 };
 
-export const getUsuarios = async () => {
+export const getUser = async () => {
   const response = await axios.get(`${API_URL}/usuarios`);
   return response.data;
 };
 
-export const createMascota = async (mascota: any) => {
+export const createPet = async (mascota: Mascota) => {
   const response = await axios.post(`${API_URL}/mascotas`, mascota);
   return response.data;
 };
 
-export const updateMascota = async (id: number, mascota: any) => {
+export const updatePet = async (id: number, mascota: Mascota) => {
   const response = await axios.put(`${API_URL}/mascotas/${id}`, mascota);
   return response.data;
 };
 
-export const deleteMascota = async (id: number) => {
+export const deletePet = async (id: number) => {
   const response = await axios.delete(`${API_URL}/mascotas/${id}`);
   return response.data;
 };

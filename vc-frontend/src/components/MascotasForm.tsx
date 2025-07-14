@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
+import useAuth from '../hook/useAuth';
+
+import { type Mascota } from '../API/pet';
 
 interface Props {
-  onSubmit: (mascota: any) => void;
-  selectedMascota: any;
-  razas: Array<{ id: number; nombre: string }>;
-  usuarios: Array<{ id: number; nombre: string }>;
+  onSubmit: (mascota: Mascota) => void
+  selectedMascota: Mascota | null
+  razas: Array<{ id: number; nombre: string }>
 }
 
-export default function MascotasForm({ onSubmit, selectedMascota, razas, usuarios }: Props) {
-  const [mascota, setMascota] = useState({ 
+export default function MascotasForm({ onSubmit, selectedMascota, razas }: Props ) {
+  const { user } = useAuth();
+
+  const [mascota, setMascota] = useState<Mascota>({ 
     nombre: '', 
     edad: 0, 
     sexo: '',
-    usuario_id: 0,
+    usuario_id: user.id,
     raza_id: 0
   });
 
@@ -32,12 +36,13 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, usuario
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
     onSubmit(mascota);
     setMascota({ 
       nombre: '', 
       edad: 0, 
       sexo: '',
-      usuario_id: 0,
+      usuario_id: user.id,
       raza_id: 0
     });
   };
@@ -77,25 +82,8 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, usuario
           required
         >
           <option value="">Seleccione...</option>
-          <option value="Macho">Macho</option>
-          <option value="Hembra">Hembra</option>
-        </select>
-      </div>
-
-      <div>
-        <label>Dueño:</label>
-        <select 
-          name="usuario_id" 
-          value={mascota.usuario_id} 
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccione dueño...</option>
-          {usuarios.map(usuario => (
-            <option key={usuario.id} value={usuario.id}>
-              {usuario.nombre}
-            </option>
-          ))}
+          <option value="M">Macho</option>
+          <option value="F">Hembra</option>
         </select>
       </div>
 

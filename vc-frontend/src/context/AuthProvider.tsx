@@ -2,6 +2,8 @@ import { useState } from 'react'
 import AuthContext from './AuthContext'
 import type { User } from '../types.d'
 
+import { login as apiLogin } from '../API/mascotas'
+
 
 export default function AuthProvider({ children }: { children: React.ReactNode }){
   const [user, setUser] = useState<User|null>(() => {
@@ -32,9 +34,18 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   const login = (email: string, password: string) => {
     console.log(`Logging in with email: ${email} and password: ${password}`)
     setIsAuthenticated(true)
-    setUser({ userName: 'Usuario', email })
-
-    saveUser({ userName: 'Usuario', email, password })
+    apiLogin(email, password)
+      .then((user) => {
+        console.log('Login successful:', user)
+        setUser(user)
+        saveUser(user)
+      })
+      .catch((error) => {
+        console.error('Login failed:', error)
+        setIsAuthenticated(false)
+        setUser(null)
+        clearUser()
+      })
   }
 
   const logout = () => {

@@ -27,7 +27,7 @@ export default function App() {
         <Navbar />
         <main> 
           <Routes>
-            <Route path="/" element={<Home userName={user.userName}/>} />
+            <Route path="/" element={<Home userName={user.nombre}/>} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />

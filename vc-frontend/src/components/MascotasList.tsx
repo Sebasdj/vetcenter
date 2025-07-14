@@ -1,31 +1,37 @@
 interface Props {
-  products: any[];
+  mascotas: any[];
   onDelete: (id: number) => void;
-  onEdit: (product: any) => void;
+  onEdit: (mascota: any) => void;
+  razas: { [key: number]: string };
+  usuarios: { [key: number]: string };
 }
 
-export default function ProductList({ products, onDelete, onEdit }: Props) {
+export default function MascotasList({ mascotas, onDelete, onEdit, razas, usuarios }: Props) {
   return (
     <div className="table-container">
       <table>
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
+            <th>Edad</th>
+            <th>Sexo</th>
+            <th>Dueño</th>
+            <th>Raza</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {products.map((p) => (
-            <tr key={p.id}>
-              <td>{p.name}</td>
-              <td>{p.description || '-'}</td>
-              <td>${p.price}</td>
+          {mascotas.map((m) => (
+            <tr key={m.id}>
+              <td>{m.nombre}</td>
+              <td>{m.edad} años</td>
+              <td>{m.sexo || '-'}</td>
+              <td>{usuarios[m.usuario_id] || 'Desconocido'}</td>
+              <td>{razas[m.raza_id] || 'Desconocida'}</td>
               <td className="actions">
-                <button onClick={() => onEdit(p)}>Editar</button>
+                <button onClick={() => onEdit(m)}>Editar</button>
                 <button 
-                  onClick={() => onDelete(p.id)}
+                  onClick={() => onDelete(m.id)}
                   style={{ backgroundColor: '#dc2626' }}
                 >
                   Eliminar

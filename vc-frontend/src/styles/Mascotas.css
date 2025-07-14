@@ -1,0 +1,145 @@
+/* Estilos específicos para Mascotas */
+.mascotas-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.mascotas-form-container, .mascotas-list-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para el formulario de mascotas */
+.mascotas-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.mascotas-form div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.mascotas-form label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 0.5rem;
+}
+
+.mascotas-form input,
+.mascotas-form select,
+.mascotas-form textarea {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.mascotas-form input:focus,
+.mascotas-form select:focus,
+.mascotas-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.mascotas-form .form-actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Estilos para la lista de mascotas */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #1f2937;
+  position: sticky;
+  top: 0;
+}
+
+tr:hover {
+  background-color: #f9fafb;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.actions button:last-child {
+  background-color: #dc2626;
+}
+
+.actions button:last-child:hover {
+  background-color: #b91c1c;
+}
+
+/* Estilos para mensajes */
+.loading-message, .error-message {
+  padding: 1rem;
+  text-align: center;
+  border-radius: 6px;
+  margin: 1rem 0;
+}
+
+.loading-message {
+  color: #4b5563;
+  background-color: #f3f4f6;
+}
+
+.error-message {
+  color: #b91c1c;
+  background-color: #fee2e2;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .mascotas-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .mascotas-form .form-actions {
+    grid-column: span 1;
+  }
+  
+  #root {
+    padding: 1rem;
+  }
+}

@@ -23,6 +23,9 @@ const Navbar = () => {
           <LinkStyled to='/'>Inicio</LinkStyled>
         </li>
         <li>
+          <LinkStyled to='/mascotas'>Mascotas</LinkStyled>
+        </li>  
+        <li>
           <LinkStyled to='/about'>Sobre nosotros</LinkStyled>
         </li>
         <li>

@@ -6,6 +6,8 @@ import Gallery from './components/Gallery'
 import About from './components/About'
 import Login from './components/Login'
 import Footer from './components/Footer'
+import Mascotas from './components/Mascotas'
+
 
 // import AuthProvider from './context/AuthProvider'
 // import AuthContext from './context/AuthContext'
@@ -29,6 +31,7 @@ export default function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/mascotas" element={<Mascotas />} />
           </Routes> 
         </main>
         <Footer />

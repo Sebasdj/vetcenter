@@ -4,7 +4,6 @@ interface Props {
   userName: string
 }
 const Home: React.FC<Props> = ({ userName }) => {
-  console.log(userName)
   return (
     <div>
       <h2>Inicio</h2>

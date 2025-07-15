@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import type { AuthContextType } from "./context"
+import type { AuthContextType } from "../types/context"
 
 
 const AuthContext = createContext<AuthContextType | null>(null)

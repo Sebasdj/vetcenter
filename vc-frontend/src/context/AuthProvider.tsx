@@ -1,58 +1,41 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AuthContext from './AuthContext'
-import type { User } from '../types.d'
+import type { User } from '../types/types.d'
 
-import { login as apiLogin } from '../API/mascotas'
+import { login as apiLogin } from '../API/API'
 
 
 export default function AuthProvider({ children }: { children: React.ReactNode }){
-  const [user, setUser] = useState<User|null>(() => {
-    const userStr = window.localStorage.getItem('user')
-    if (!userStr) {
-      return null
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const userData = window.localStorage.getItem('usuario')
+      if (userData) {
+        const parsedUser = JSON.parse(userData)
+        await login(parsedUser.correo, parsedUser.clave)
+      }
+    }
+    loadUser()
+  }, [])
+
+  const login = async (email: string, password: string) => {
+    const response = await apiLogin(email, password)
+
+    if (response.error) {
+      throw new Error(response.error)
     }
 
-    const user: User = JSON.parse(userStr)
-    console.log('Retrieved user:', user)
-    return user
-  })
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    if (user != null) return true
-    return false
-  })
-
-  const saveUser = (user: User) => {
-    console.log('Saving user:', user)
-    window.localStorage.setItem('user', JSON.stringify(user))
-  }
-
-  const clearUser = () => {
-    console.log('Clearing user')
-    window.localStorage.removeItem('user')
-  }
-
-  const login = (email: string, password: string) => {
-    console.log(`Logging in with email: ${email} and password: ${password}`)
+    setUser(response.data)
     setIsAuthenticated(true)
-    apiLogin(email, password)
-      .then((user) => {
-        console.log('Login successful:', user)
-        setUser(user)
-        saveUser(user)
-      })
-      .catch((error) => {
-        console.error('Login failed:', error)
-        setIsAuthenticated(false)
-        setUser(null)
-        clearUser()
-      })
+    return response
   }
 
   const logout = () => {
     console.log('Logging out')
     setIsAuthenticated(false)
     setUser(null)
-    clearUser()
   }
 
   return (

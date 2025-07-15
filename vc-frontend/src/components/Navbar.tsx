@@ -15,7 +15,7 @@ const Navbar = () => {
     <NavbarContainer className="navbar">
       <div className="navbar-left">
         <img src={logo} alt="logo" className="logo" />
-        <span className='username'>{user.userName}</span>
+        <span className='username'>{user.nombre}</span>
       </div>
 
       <ul className="navbar-menu">

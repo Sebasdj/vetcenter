@@ -9,9 +9,12 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    login(email, password)
+    const response = await login(email, password)
+    if (response.error) {
+      alert(response.error)
+    }
   }
 
   const emailInputId = useId()
@@ -41,7 +44,7 @@ export default function Login() {
               onChange={e => setPassword(e.target.value)} />
           </InputGroup>
 
-          <LoginButton>Iniciar Sesión</LoginButton>
+          <LoginButton type="submit">Iniciar Sesión</LoginButton>
 
           <ForgotPasswordLink>
             <a href="#">Olvidaste tu contraseña</a>
@@ -95,32 +98,15 @@ const InputGroup = styled.div`
   flex-direction: column;
   width: 100%;
 
-  & > label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-  }
-
   & > input {
     width: 350px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
   }
 `
 
 const LoginButton = styled.button`
-  width: 100%;
-  padding: .5rem;
   background-color: #007bff;
   color: white;
 
-  border: none;
-  border-radius: 5px;
-
-  font-size: 1rem;
   transition: background 0.3s;
 
   &:hover {

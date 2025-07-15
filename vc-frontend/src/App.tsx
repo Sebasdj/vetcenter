@@ -6,7 +6,6 @@ import Gallery from './components/Gallery'
 import About from './components/About'
 import Login from './components/Login'
 import Footer from './components/Footer'
-import Mascotas from './components/Mascotas'
 
 
 // import AuthProvider from './context/AuthProvider'
@@ -15,10 +14,10 @@ import Mascotas from './components/Mascotas'
 import './styles/App.css'
 // import { useContext } from 'react'
 import useAuth from './hook/useAuth'
+import PetAdoptionPage from './components/PetAdoptionPage'
 
 export default function App() {
-  const {isAuthenticated, user} = useAuth();
-
+  const { isAuthenticated, user } = useAuth();
   return (
     <BrowserRouter>
     {
@@ -31,7 +30,7 @@ export default function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/mascotas" element={<Mascotas />} />
+            <Route path="/mascotas" element={<PetAdoptionPage />} />
           </Routes> 
         </main>
         <Footer />

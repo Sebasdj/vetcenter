@@ -5,7 +5,7 @@
 # 🐾 VetCenter - Plataforma de Adopción Animal
 
 ## 🌟 Sobre el Proyecto
-**VetCenter** es una plataforma web para gestión de adopciones animales desarrollada con:
+**VetCenter** es una plataforma web para gestión de adopciones animales.
 
 
 ## 📋 Descripción

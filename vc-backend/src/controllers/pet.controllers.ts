@@ -10,7 +10,7 @@ export const getPets = async (_: Request, res: Response) => {
         m.id,
         m.nombre, 
         m.edad, 
-        m.sexo, 
+        ms.mascota_sexo "sexo", 
         u.nombre "usuario", 
         u.correo, 
         r.nombre "raza", 
@@ -21,7 +21,11 @@ export const getPets = async (_: Request, res: Response) => {
       join razas r 
         on m.raza_id = r.id 
       join especies e 
-        on r.especie_id = e.id;
+        on r.especie_id = e.id
+      join mascotas_sexos ms
+        on ms.id = m.sexo_id
+      where m.estado_id = 1 
+        ;
       `
     );
   
@@ -35,15 +39,16 @@ export const getPets = async (_: Request, res: Response) => {
 export const createPet = async (req: Request, res: Response) => {
   console.log(req.body)
   try {
-    const { nombre, edad, sexo, usuario_id, raza_id } = req.body;
+    const { nombre, edad, sexoId, razaId } = req.body;
+    const usuarioId = req.user?.id ?? 0
     const result = await pool.query(
       `
       INSERT INTO mascotas 
-        (nombre, edad, sexo, usuario_id, raza_id) 
+        (nombre, edad, sexo_id, usuario_id, raza_id) 
       VALUES 
         ($1, $2, $3, $4, $5) RETURNING *
       `,
-      [nombre, edad, sexo, usuario_id, raza_id]
+      [nombre, edad, sexoId, usuarioId, razaId]
     );
 
     res.json(result.rows[0]);
@@ -80,6 +85,23 @@ export const updatePet = async (req: Request, res: Response) => {
   }
 };
 
+export const adoptPet = async (req: Request, res: Response) => {
+  console.log(req.params)
+  try {
+    const { id } = req.params;
+    const usuarioId = req.user?.id ?? 0
+
+    console.log(id, usuarioId)
+
+    await pool.query('SELECT adoptar_mascota($1, $2)', [id, usuarioId]);
+
+    res.sendStatus(204);
+  } catch (error) {
+    // console.error('Error adoptting pet:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 export const deletePet = async (req: Request, res: Response) => {
   console.log(req.params)
   try {
@@ -106,6 +128,24 @@ export const getBreeds = async (_: Request, res: Response) => {
     res.json(result.rows);
   } catch (error) {
     console.error('Error fetching pets:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const getPetSexes = async (_: Request, res: Response) => {
+  try {
+
+    const result = await pool.query(
+      `
+      SELECT
+        *
+      from mascotas_sexos
+      `
+    );
+  
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error fetching pet sexes:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

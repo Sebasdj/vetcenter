@@ -17,11 +17,16 @@ import useAuth from './hook/useAuth'
 import PetAdoptionPage from './components/PetAdoptionPage'
 
 export default function App() {
-  const { isAuthenticated, user } = useAuth();
+  const { user, isLoading } = useAuth()
+
+  if (isLoading) {
+    return <div>Cargando...</div>
+  }
+  
   return (
     <BrowserRouter>
     {
-      isAuthenticated ?
+      user ?
       <>
         <Navbar />
         <main> 

@@ -9,7 +9,7 @@ import logo from '../assets/logo.png'
 //   userName: string
 // }
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logoutRequest } = useAuth();
   
   return (
     <NavbarContainer className="navbar">
@@ -33,7 +33,7 @@ const Navbar = () => {
         </li>
         <li>
           <ButtonStyled 
-            onClick={logout} // onLogout
+            onClick={logoutRequest} // onLogout
             className='logout-button'>
               Cerrar Sesión
           </ButtonStyled>

@@ -1,7 +1,6 @@
 import type { User as IUser } from './types/types.d'
 
 export const User: IUser = {
-  userName: 'Admin',
-  password: '12345',
+  nombre: 'Admin',
   email: 'sebas@sebas.com',
 }

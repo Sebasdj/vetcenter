@@ -1,49 +1,50 @@
 import { useState, useEffect } from 'react'
-import AuthContext from './AuthContext'
-import type { User } from '../types/types.d'
 
-import { login as apiLogin } from '../API/API'
+import AuthContext from './AuthContext'
+
+import type { User } from '../types/types.d'
+import useLocalStorage from '../hook/useLocalStorage'
 
 
 export default function AuthProvider({ children }: { children: React.ReactNode }){
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { getSession, getExpTime, clearSession } = useLocalStorage()
+
   const [user, setUser] = useState<User | null>(null)
+  const [jwt, setJWT] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const loadUser = async () => {
-      const userData = window.localStorage.getItem('usuario')
-      if (userData) {
-        const parsedUser = JSON.parse(userData)
-        await login(parsedUser.correo, parsedUser.clave)
+    if (getExpTime()) {
+      const session = getSession()
+      
+      if (session) {
+        setUser(session.user)
+        setJWT(session.token)
       }
-    }
-    loadUser()
-  }, [])
+    } else clearSession()
+    
+    setIsLoading(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const login = async (email: string, password: string) => {
-    const response = await apiLogin(email, password)
 
-    if (response.error) {
-      throw new Error(response.error)
-    }
-
-    setUser(response.data)
-    setIsAuthenticated(true)
-    return response
+  const login = async (name: string, email: string, jwt: string) => {
+    setUser({nombre: name, email: email})
+    setJWT(jwt)
   }
 
   const logout = () => {
-    console.log('Logging out')
-    setIsAuthenticated(false)
     setUser(null)
+    setJWT('')
   }
 
   return (
     <AuthContext.Provider value={{
-      isAuthenticated,
       user,
+      jwt,
       login,
-      logout
+      logout,
+      isLoading
     }}>
       {children}
     </AuthContext.Provider>

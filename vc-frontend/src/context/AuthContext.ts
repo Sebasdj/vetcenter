@@ -1,7 +1,12 @@
 import { createContext } from "react"
-import type { AuthContextType } from "../types/context"
+import type { AuthContext as IAuthContext } from "../types/context"
 
 
-const AuthContext = createContext<AuthContextType | null>(null)
+const AuthContext = createContext<IAuthContext>({
+  jwt: '',
+  user: null,
+  login: () => {},
+  logout: () => {}
+})
 
 export default AuthContext

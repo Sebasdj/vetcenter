@@ -8,15 +8,16 @@ interface Props {
   onSubmit: (mascota: Mascota) => void
   selectedMascota: Mascota | null
   razas: Array<{ id: number; nombre: string }>
+  sexos: Array<{id: number, mascota_sexo: string}>
 }
 
-export default function MascotasForm({ onSubmit, selectedMascota, razas }: Props ) {
+export default function MascotasForm({ onSubmit, selectedMascota, razas, sexos }: Props ) {
   const { user } = useAuth();
 
   const [mascota, setMascota] = useState<Mascota>({ 
     nombre: '', 
     edad: 0, 
-    sexo: '',
+    sexo_id: '',
     usuario_id: user.id,
     raza_id: 0
   });
@@ -43,7 +44,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas }: Props
     setMascota({ 
       nombre: '', 
       edad: 0, 
-      sexo: '',
+      sexo_id: '',
       usuario_id: user.id,
       raza_id: 0
     });
@@ -82,13 +83,16 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas }: Props
           <label>Sexo:</label>
           <select 
             name="sexo" 
-            value={mascota.sexo} 
+            value={mascota.sexo_id} 
             onChange={handleChange}
             required
           >
             <option value="">Seleccione...</option>
-            <option value="Macho">Macho</option>
-            <option value="Hembra">Hembra</option>
+            {sexos?.map(sexo => (
+              <option key={sexo.id} value={sexo.id}>
+                {sexo.mascota_sexo}
+              </option>
+            ))}
           </select>
         </InputGroup>
 
@@ -101,7 +105,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas }: Props
             required
           >
             <option value="">Seleccione raza...</option>
-            {razas.map(raza => (
+            {razas?.map(raza => (
               <option key={raza.id} value={raza.id}>
                 {raza.nombre}
               </option>
@@ -120,7 +124,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas }: Props
             setMascota({ 
               nombre: '', 
               edad: 0, 
-              sexo: '',
+              sexo_id: '',
               usuario_id: user.id,
               raza_id: 0
             });

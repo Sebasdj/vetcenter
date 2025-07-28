@@ -1,8 +1,9 @@
-export interface AuthInfo {
-  isAuthenticated: boolean;
-  user: User | null;
-}
-export interface AuthContextType extends AuthInfo {
-  login(email: string, password: string)
+import type { User } from 'types'
+
+export interface AuthContext {
+  user: User | null
+  jwt: string
+  isLoading: boolean
+  login(name: string, email: string, jwt: string)
   logout()
 };

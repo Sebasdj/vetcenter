@@ -22,7 +22,7 @@ export default function MascotasList({ mascotas, onAdoptPet, onEditPet }: Props)
           </tr>
         </thead>
         <tbody>
-          {mascotas.map((m) => (
+          {mascotas?.map((m) => (
             <tr key={m.id}>
               <td>{m.nombre}</td>
               <td>{m.edad} años</td>

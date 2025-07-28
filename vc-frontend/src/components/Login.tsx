@@ -5,16 +5,13 @@ import styled from 'styled-components'
 import useAuth from '../hook/useAuth'
 
 export default function Login() {
-  const { login } = useAuth()
+  const { loginRequest } = useAuth()
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    const response = await login(email, password)
-    if (response.error) {
-      alert(response.error)
-    }
+    await loginRequest(email, password)
   }
 
   const emailInputId = useId()

@@ -4,14 +4,9 @@ import PetForm from './PetForm'
 import PetList from './PetList'
 import { type IPet, type Mascota } from '../types/pet'
 
-import {
-  getPets,
-  getBreeds,
-  createPet,
-  updatePet,
-  adoptPet
-} from '../API/API';
+import PetsAPI from '../API/PetsAPI';
 import useAuth from '../hook/useAuth';
+
 
 
 
@@ -22,6 +17,7 @@ export default function PetAdoptionPage() {
   const [selectedMascota, setSelectedMascota] = useState<Mascota | null>(null);
 
   const [razas, setRazas] = useState<Array<{id: number, nombre: string}>>([]);
+  const [sexos, setSexos] = useState<Array<{id: number, mascota_sexo: string}>>([]);
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -44,13 +40,15 @@ export default function PetAdoptionPage() {
   }
 
   const loadPets = async () => {
-    const [mascotasData, razasData] = await Promise.all([
-      getPets(),
-      getBreeds()
+    const [mascotasData, razasData, sexosData] = await Promise.all([
+      PetsAPI.getPets(),
+      PetsAPI.getBreeds(),
+      PetsAPI.getPetSexes()
     ])
 
     setMascotas(mascotasData.data as IPet[]);
     setRazas(razasData.data as Array<{id: number, nombre: string}>);
+    setSexos(sexosData.data as Array<{id: number, mascota_sexo: string}>)
   }
 
   // Cargar datos iniciales
@@ -68,12 +66,12 @@ export default function PetAdoptionPage() {
         /*
           Editar mascota existente
         */
-        await updatePet(selectedMascota.id ?? 0, mascota);
+        await PetsAPI.updatePet(selectedMascota.id ?? 0, mascota);
       } else {
         /*
           Agregar nueva mascota
         */
-        await createPet(mascota)
+        await PetsAPI.createPet(mascota)
       }
 
       setSelectedMascota(null)
@@ -83,7 +81,7 @@ export default function PetAdoptionPage() {
 
   const handleAdopt = async (id: number) => {
     requestInterface(async () => {
-      await adoptPet(id);
+      await PetsAPI.adoptPet(id);
       setMascotas(mascotas.filter(m => m.id !== id));
     })
   };
@@ -101,6 +99,7 @@ export default function PetAdoptionPage() {
           onSubmit={handleSubmit} 
           selectedMascota={selectedMascota}
           razas={razas}
+          sexos={sexos}
         />
       </div>
       
@@ -115,7 +114,7 @@ export default function PetAdoptionPage() {
               id: pet.id,
               nombre: pet.nombre,
               edad: pet.edad,
-              sexo: pet.sexo,
+              sexo_id: pet.sexo,
               usuario_id: user.id,
               raza_id: razas.find((raza : {id: number, nombre: string} ) => {
                 return raza.nombre == pet.raza

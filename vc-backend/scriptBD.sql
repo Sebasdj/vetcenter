@@ -1,70 +1,95 @@
 create database vetcenter;
 \c vetcenter;
 
+-- Crear la base de datos
+CREATE DATABASE vetcenter;
+\c vetcenter;
+
+-- Tabla de especies
 CREATE TABLE especies (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL UNIQUE
 );
 
+-- Tabla de razas
 CREATE TABLE razas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     especie_id INTEGER NOT NULL,
     FOREIGN KEY (especie_id) REFERENCES especies(id) ON DELETE CASCADE,
-    UNIQUE (nombre, especie_id) -- evita duplicados como "Labrador" dos veces en perros
+    UNIQUE (nombre, especie_id)
 );
 
-
+-- Tabla de usuarios
 CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     correo VARCHAR(100) UNIQUE NOT NULL,
-    clave TEXT NOT NULL  
+    clave TEXT NOT NULL
 );
 
+-- Tabla de sexos de mascotas
+CREATE TABLE mascotas_sexos (
+    id SERIAL PRIMARY KEY,
+    mascota_sexo VARCHAR(10) NOT NULL UNIQUE
+);
+
+-- Tabla de mascotas
 CREATE TABLE mascotas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     edad INTEGER,
-    sexo VARCHAR(10),
+    sexo_id INTEGER,
     usuario_id INTEGER NOT NULL,
     raza_id INTEGER NOT NULL,
+    estado_id INTEGER,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-    FOREIGN KEY (raza_id) REFERENCES razas(id) ON DELETE SET NULL
+    FOREIGN KEY (raza_id) REFERENCES razas(id) ON DELETE SET NULL,
+    FOREIGN KEY (estado_id) REFERENCES estados_mascotas(id) ON DELETE SET NULL,
+    FOREIGN KEY (sexo_id) REFERENCES mascotas_sexos(id) ON DELETE SET NULL
 );
 
-
+-- Tabla de estados de mascotas
 CREATE TABLE estados_mascotas (
-  id SERIAL PRIMARY KEY,
-  estado VARCHAR(50) NOT NULL UNIQUE
+    id SERIAL PRIMARY KEY,
+    estado VARCHAR(50) NOT NULL UNIQUE
 );
 
-ALTER TABLE mascotas
-ADD COLUMN estado_id INTEGER;
-
-ALTER TABLE mascotas
-ADD CONSTRAINT fk_estado
-FOREIGN KEY (estado_id) REFERENCES estados_mascotas(id)
-ON DELETE SET NULL;
-
+-- Tabla de adopciones
 CREATE TABLE adopciones (
-  id SERIAL PRIMARY KEY,
-  usuario_id INTEGER NOT NULL,
-  mascota_id INTEGER NOT NULL,
-  fecha_adopcion DATE DEFAULT CURRENT_DATE,
-  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-  FOREIGN KEY (mascota_id) REFERENCES mascotas(id) ON DELETE CASCADE,
-  UNIQUE (mascota_id)
+    id SERIAL PRIMARY KEY,
+    usuario_id INTEGER NOT NULL,
+    mascota_id INTEGER NOT NULL,
+    fecha_adopcion DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (mascota_id) REFERENCES mascotas(id) ON DELETE CASCADE,
+    UNIQUE (mascota_id)
 );
 
+-- Opcional: Insertar valores comunes en mascotas_sexos y estados_mascotas
+INSERT INTO mascotas_sexos (mascota_sexo) VALUES ('Macho'), ('Hembra');
+
+INSERT INTO estados_mascotas (estado) VALUES ('Disponible'), ('Adoptado'), ('En tratamiento');
+
+-- Asignar estado por defecto a mascotas sin estado
 UPDATE mascotas
 SET estado_id = (
-  SELECT id FROM estados_mascotas WHERE estado = 'Disponible'
+    SELECT id FROM estados_mascotas WHERE estado = 'Disponible'
 )
 WHERE estado_id IS NULL;
 
+-- Definir valor por defecto para estado_id
 ALTER TABLE mascotas
 ALTER COLUMN estado_id SET DEFAULT 1;
+
+
+
+/*
+
+  INSERCION DE LOS DATOS
+
+
+*/
 
 INSERT INTO estados_mascotas (estado) VALUES
   ('Disponible'),

@@ -114,7 +114,7 @@ export default function PetAdoptionPage() {
               id: pet.id,
               nombre: pet.nombre,
               edad: pet.edad,
-              sexo_id: pet.sexo,
+              sexo_id: sexos.find(sex => sex.mascota_sexo === pet.sexo)?.id ?? 0,
               usuario_id: user.id,
               raza_id: razas.find((raza : {id: number, nombre: string} ) => {
                 return raza.nombre == pet.raza

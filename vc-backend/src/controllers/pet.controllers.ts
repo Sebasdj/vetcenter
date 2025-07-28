@@ -63,20 +63,20 @@ export const updatePet = async (req: Request, res: Response) => {
   try {
 
     const { id } = req.params;
-    const { nombre, edad, sexo, usuario_id, raza_id } = req.body;
+    const { nombre, edad, sexo_id, usuario_id, raza_id } = req.body;
     const result = await pool.query(
       `
       UPDATE mascotas
       SET
         nombre = COALESCE($1, nombre),
         edad   = COALESCE($2, edad),
-        sexo   = COALESCE($3, sexo),
+        sexo_id   = COALESCE($3, sexo_id),
         usuario_id = COALESCE($4, usuario_id),
         raza_id    = COALESCE($5, raza_id)
       WHERE id = $6
       RETURNING *;
       `,
-      [nombre, edad, sexo, usuario_id, raza_id, id]
+      [nombre, edad, sexo_id, usuario_id, raza_id, id]
     );
     res.json(result.rows[0]);
   } catch (error) {

@@ -17,7 +17,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, sexos }
   const [mascota, setMascota] = useState<Mascota>({ 
     nombre: '', 
     edad: 0, 
-    sexo_id: '',
+    sexo_id: 0,
     usuario_id: user.id,
     raza_id: 0
   });
@@ -30,7 +30,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, sexos }
     const { name, value } = e.target;
     setMascota({ 
       ...mascota, 
-      [name]: name === 'edad' || name === 'usuario_id' || name === 'raza_id' 
+      [name]: name === 'edad' || name === 'raza_id' || name === 'sexo_id'
         ? parseInt(value) 
         : value 
     });
@@ -44,7 +44,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, sexos }
     setMascota({ 
       nombre: '', 
       edad: 0, 
-      sexo_id: '',
+      sexo_id: 0,
       usuario_id: user.id,
       raza_id: 0
     });
@@ -82,7 +82,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, sexos }
         <InputGroup>
           <label>Sexo:</label>
           <select 
-            name="sexo" 
+            name="sexo_id" 
             value={mascota.sexo_id} 
             onChange={handleChange}
             required
@@ -124,7 +124,7 @@ export default function MascotasForm({ onSubmit, selectedMascota, razas, sexos }
             setMascota({ 
               nombre: '', 
               edad: 0, 
-              sexo_id: '',
+              sexo_id: 0,
               usuario_id: user.id,
               raza_id: 0
             });

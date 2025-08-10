@@ -54,8 +54,12 @@ button {
 main {
   display: flex;
   flex-direction: column;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
+
+  width: 60%;
+  min-width: 360px;
   height: 100%;
+  margin: 0 auto;
 }
 
 footer {
@@ -116,3 +120,194 @@ table {
   width: 100%;
 }
 
+.home-container {  
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & #hero {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    padding: 1rem 3rem;
+
+    background: #233e;
+    color: white;
+
+    & .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      padding: 1rem;
+      width: 50%;
+    }
+
+    & > div:nth-child(2) {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+
+    & img {
+      width: 180px;
+      scale: 1.5;
+    }
+  }
+
+  & #testimonios {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 1rem 2rem;
+    border-radius: 8px;
+
+    background: rgba(48, 85, 85, 0.933);
+    color: #fff;
+
+    & h1, h2 {
+      color: inherit
+    }
+
+    & .testimonios-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    & article {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      
+
+      & blockquote {
+        font-style: italic;
+      }
+
+      & p {
+        text-align: right;
+        font-weight: bold;
+      }
+    }
+  }
+
+  & a {
+    /* text-decoration: none; */
+    color: inherit;
+
+    padding: .5rem 1rem;
+    border-radius: 6px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & li {
+    list-style: square;
+    padding: .4rem 1rem;
+    border-bottom: 1px solid;
+  }
+
+  & ul :last-child {
+    border-bottom: none;
+  }
+
+  & #enlaces-rapidos {
+    & nav {
+      display: flex;
+      gap: 1rem;
+    }
+
+    & li {
+      list-style: none;
+      border: none;
+    }
+
+    & nav a {
+      padding: .4rem 1rem;
+      background: #233e;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    & nav a:hover {
+      background: #1d2a2a;
+    }
+  }
+}
+
+.about-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & h1, h2 {
+    text-align: center;
+  }
+
+  & li {
+    list-style: square;
+    padding: .4rem 1rem;
+    border-bottom: 1px solid;
+  }
+
+  & ul :last-child {
+    border-bottom: none;
+  }
+
+
+  & section#mision-vision {
+    display: flex;
+    gap: 1rem;
+
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+
+      flex: 1;
+      
+      padding: 1rem;
+      border-radius: 4px;
+      
+      background: #e4dede;
+    }
+  }
+
+  & #equipo {
+    background: #f1ecec;  
+    border-radius: 6px;  
+    & .equipo-grid  {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+  }
+
+
+
+  & .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .4rem;
+    text-align: center;
+
+    & img {
+      width: 32px;
+      display: block;
+    }
+  }
+}
